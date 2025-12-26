@@ -10,7 +10,7 @@ const multer = require('multer');
 const app = express();
 const port = process.env.PORT || 5000;
 
-const mongoUrl = process.env.MONGO_URL || '';
+const mongoUrl = process.env.MONGO_URI || '';
 
 if (!mongoUrl) {
   console.log('MONGO_URL is empty, set it before running the server');

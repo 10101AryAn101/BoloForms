@@ -3,7 +3,11 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "./index.css";
+
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
 
 function SignatureDialog(props) {
   const open = props.open;
@@ -166,7 +170,7 @@ export default function App() {
     if (!fileToUpload) return;
     const fd = new FormData();
     fd.append('file', fileToUpload);
-    fetch('http://localhost:5000/upload-pdf', {
+    fetch(`${API_BASE}/upload-pdf`, {
       method: 'POST',
       body: fd
     })
@@ -175,7 +179,7 @@ export default function App() {
       })
       .then(function (data) {
         if (data && data.url && data.pdfId) {
-          setPdfUrl('http://localhost:5000' + data.url);
+          setPdfUrl(API_BASE + data.url);
           setPdfId(data.pdfId);
           setFields([]);
           setSignatureData("");
@@ -397,7 +401,7 @@ export default function App() {
         };
       }),
     };
-    fetch("http://localhost:5000/sign-pdf", {
+    fetch(`${API_BASE}/sign-pdf`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -411,7 +415,7 @@ export default function App() {
           return;
         }
         if (data && data.url) {
-          const full = "http://localhost:5000" + data.url;
+          const full = API_BASE + data.url;
           setSignedUrl(full);
           alert('Signed PDF created. Use the link on the right to open it.');
         }
