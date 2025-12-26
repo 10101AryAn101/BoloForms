@@ -6,9 +6,10 @@ const mongoose = require('mongoose');
 const { PDFDocument, StandardFonts } = require('pdf-lib');
 const cors = require('cors');
 const multer = require('multer');
+require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 const mongoUrl = process.env.MONGO_URI || '';
 
